@@ -57,9 +57,9 @@ pipeline {
                     def inventoryFile
 
                     // Determine the environment based on the branch name
-                    if (branchName == 'main') {
+                    if (branchName == 'origin/main') {
                         inventoryFile = 'inventories/prod_hosts'  // Prod environment
-                    } else if (branchName == 'develop') {
+                    } else if (branchName == 'origin/develop') {
                         inventoryFile = 'inventories/dev_hosts'   // Dev environment
                     } else {
                         error "Unknown branch '${branchName}', deployment aborted."
