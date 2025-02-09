@@ -3,8 +3,8 @@ pipeline {
 
     tools {
         nodejs("nodejs")
+        ansible 'ansible-latest'  
     }
-
     stages {
         stage('Install Dependencies') {
             steps {
@@ -65,8 +65,10 @@ pipeline {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
 
-                    // Run the Ansible playbook for deployment using the selected inventory file
-                    sh "ansible-playbook -i ${inventoryFile} playbooks/main.yml"
+                    ansiblePlaybook(
+                    playbook: 'playbooks/main.yml',  // Path to your playbook
+                    inventory: inventoryFile // Path to your inventory file (set dynamically)
+                    )
                 }
             }
         }
