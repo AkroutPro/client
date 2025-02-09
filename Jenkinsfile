@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent any  // This will run the pipeline on any available agent
 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Git branch to build')
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${params.BRANCH_NAME}", url: 'git@github.com:yourusername/your-repository.git'
+                git branch: "${params.BRANCH_NAME}", url: 'git@github.com:AkroutPro/client.git'
             }
         }
 
@@ -52,7 +52,7 @@ pipeline {
 
     post {
         always {
-            node {
+            node('label') {  // Ensure you replace 'label' with the appropriate node label if needed
                 cleanWs()
             }
         }
