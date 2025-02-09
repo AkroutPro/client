@@ -39,6 +39,7 @@ pipeline {
         stage('Clone Ansible Repo') {
             steps {
                 script {
+                    sh 'rm -rf /tmp/ansible-client'
                     // Clone the Ansible repository
                     // Use your own Git URL and credentials if required
                     sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
