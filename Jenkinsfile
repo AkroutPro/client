@@ -4,10 +4,6 @@ pipeline {
     tools{
         nodejs("nodejs")
     }
-    
-    parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Git branch to build')
-    }
     stages {
         stage('Install Dependencies') {
             steps {
