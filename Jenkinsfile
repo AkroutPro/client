@@ -46,18 +46,14 @@ pipeline {
                 }
             }
         }
-        stage('Checkout Repository') {
-            steps {
-                // Ensure that the repository is checked out to the correct branch
-                checkout scm
-            }
-        }
         stage('Deploy with Ansible') {
             steps {
                 
                 script {
                     // Get the current branch name
-                    def branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+                    // Get the branch name from the Jenkins job environment
+                    def branchName = env.GIT_BRANCH
+                    echo "Current branch: ${branchName}"
                     def inventoryFile
 
                     // Determine the environment based on the branch name
