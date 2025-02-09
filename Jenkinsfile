@@ -35,6 +35,16 @@ pipeline {
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'build/**/*', followSymlinks: false
             }
         }
+        
+        stage('Clone Ansible Repo') {
+            steps {
+                script {
+                    // Clone the Ansible repository
+                    // Use your own Git URL and credentials if required
+                    sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
+                }
+            }
+        }
 
         stage('Deploy with Ansible') {
             steps {
