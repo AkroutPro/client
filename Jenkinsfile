@@ -28,14 +28,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sh './deploy.sh'
-                }
-            }
-        }
+        
         stage('Archive Build Artifact') {
             steps {
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'build/**/*', followSymlinks: false
