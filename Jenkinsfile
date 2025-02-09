@@ -1,9 +1,10 @@
 pipeline {
     agent any  // This will run the pipeline on any available agent
-    
-    tools{
+
+    tools {
         nodejs("nodejs")
     }
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -28,13 +29,34 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Archive Build Artifact') {
             steps {
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'build/**/*', followSymlinks: false
             }
         }
 
+        stage('Deploy with Ansible') {
+            steps {
+                script {
+                    // Get the current branch name
+                    def branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+                    def inventoryFile
+
+                    // Determine the environment based on the branch name
+                    if (branchName == 'main') {
+                        inventoryFile = 'inventories/prod_hosts'  // Prod environment
+                    } else if (branchName == 'develop') {
+                        inventoryFile = 'inventories/dev_hosts'   // Dev environment
+                    } else {
+                        error "Unknown branch '${branchName}', deployment aborted."
+                    }
+
+                    // Run the Ansible playbook for deployment using the selected inventory file
+                    sh "ansible-playbook -i ${inventoryFile} playbooks/main.yml"
+                }
+            }
+        }
     }
 
     post {
