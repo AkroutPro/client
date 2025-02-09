@@ -36,6 +36,12 @@ pipeline {
                 }
             }
         }
+        stage('Archive Build Artifact') {
+            steps {
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'build/**/*', followSymlinks: false
+            }
+        }
+
     }
 
     post {
