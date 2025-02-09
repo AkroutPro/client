@@ -1,6 +1,10 @@
 pipeline {
     agent any  // This will run the pipeline on any available agent
-
+    {
+        tools{
+            nodejs("nodejs")
+        }
+    }
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Git branch to build')
     }
