@@ -4,19 +4,7 @@ pipeline {
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Git branch to build')
     }
-
-    environment {
-        NODE_HOME = tool name: 'nodejs', type: 'NodeJS'
-        PATH = "${NODE_HOME}/bin:${env.PATH}"
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: "${params.BRANCH_NAME}", url: 'git@github.com:AkroutPro/client.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 script {
@@ -51,12 +39,6 @@ pipeline {
     }
 
     post {
-        always {
-            node('label') {  // Ensure you replace 'label' with the appropriate node label if needed
-                cleanWs()
-            }
-        }
-
         success {
             echo 'Build and deployment successful!'
         }
