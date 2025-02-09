@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs("nodejs")
-        ansible 'ansible-latest'  
     }
     stages {
         stage('Install Dependencies') {
