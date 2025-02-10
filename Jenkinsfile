@@ -58,9 +58,9 @@ pipeline {
 
                     // Determine the environment based on the branch name
                     if (branchName == 'origin/main') {
-                        inventoryFile = 'inventories/prod_hosts'  // Prod environment
+                        inventoryFile = 'inventories/prod_hosts.ini'  // Prod environment
                     } else if (branchName == 'origin/develop') {
-                        inventoryFile = 'inventories/dev_hosts'   // Dev environment
+                        inventoryFile = 'inventories/dev_hosts.ini'   // Dev environment
                     } else {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
