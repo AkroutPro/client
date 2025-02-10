@@ -68,12 +68,12 @@ pipeline {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
                                          // Ensure we are on the 'main' branch
-                    sh '''
-                        cd /tmp/ansible-client
-                        git checkout main
-                        git pull origin main
-                        ansible-playbook playbooks/main.yml -i ${inventoryFile}
-                    '''
+                 sh """
+                    cd /tmp/ansible-client
+                    git checkout main
+                    git pull origin main
+                    ansible-playbook playbooks/main.yml -i ${inventoryFile}
+                    """
                 }
             }
         }
