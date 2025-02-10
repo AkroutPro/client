@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs("nodejs")
-        ansible("ansible-latest") 
     }
     stages {
         stage('Install Dependencies') {
@@ -43,17 +42,14 @@ pipeline {
                     // Clone the Ansible repository
                     // Use your own Git URL and credentials if required
                     sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
-                     // Ensure we are on the 'main' branch
-                    sh '''
-                        cd /tmp/ansible-client
-                        git checkout main
-                        git pull origin main
-                    '''
                      
                 }
             }
         }
         stage('Deploy with Ansible') {
+            tools {
+                ansible("ansible-latest")  // Only apply Ansible for this stage
+            }
             steps {
                 
                 script {
@@ -71,6 +67,12 @@ pipeline {
                     } else {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
+                                         // Ensure we are on the 'main' branch
+                    sh '''
+                        cd /tmp/ansible-client
+                        git checkout main
+                        git pull origin main
+                    '''
                     sh "ansible-playbook playbooks/main.yml -i ${inventoryFile}"
                 }
             }
