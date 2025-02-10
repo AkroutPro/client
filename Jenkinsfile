@@ -47,9 +47,6 @@ pipeline {
             }
         }
         stage('Deploy with Ansible') {
-            tools {
-                ansible("ansible-latest")  // Only apply Ansible for this stage
-            }
             steps {
                 
                 script {
