@@ -43,6 +43,13 @@ pipeline {
                     // Clone the Ansible repository
                     // Use your own Git URL and credentials if required
                     sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
+                     // Ensure we are on the 'main' branch
+                    sh '''
+                        cd /tmp/ansible-client
+                        git checkout main
+                        git pull origin main
+                    '''
+                     
                 }
             }
         }
@@ -65,10 +72,6 @@ pipeline {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
                     sh "ansible-playbook playbooks/main.yml -i ${inventoryFile}"
-                    ansiblePlaybook(
-                    playbook: 'playbooks/main.yml',  // Path to your playbook
-                    inventory: inventoryFile, // Path to your inventory file (set dynamically)
-                    )
                 }
             }
         }
