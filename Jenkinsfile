@@ -72,8 +72,8 @@ pipeline {
                         cd /tmp/ansible-client
                         git checkout main
                         git pull origin main
+                        ansible-playbook playbooks/main.yml -i ${inventoryFile}
                     '''
-                    sh "ansible-playbook playbooks/main.yml -i ${inventoryFile}"
                 }
             }
         }
