@@ -64,11 +64,10 @@ pipeline {
                     } else {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
-
+                    sh "ansible-playbook playbooks/main.yml -i ${inventoryFile}"
                     ansiblePlaybook(
                     playbook: 'playbooks/main.yml',  // Path to your playbook
                     inventory: inventoryFile, // Path to your inventory file (set dynamically)
-                    sudo: true
                     )
                 }
             }
