@@ -39,17 +39,10 @@ pipeline {
         stage('Clone Ansible Repo') {
             steps {
                 script {
-                    // Remove the existing directory if it exists
                     sh 'rm -rf /tmp/ansible-client'
-
-                 // Clone the Ansible repository
-                 sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
-
-                  // Ensure we are on the main branch
-                 sh '''
-                cd /tmp/ansible-client
-                git checkout main
-                '''
+                    // Clone the Ansible repository
+                    // Use your own Git URL and credentials if required
+                    sh 'git clone git@github.com:AkroutPro/ansible-client.git /tmp/ansible-client'
                 }
             }
         }
@@ -74,7 +67,8 @@ pipeline {
 
                     ansiblePlaybook(
                     playbook: 'playbooks/main.yml',  // Path to your playbook
-                    inventory: inventoryFile // Path to your inventory file (set dynamically)
+                    inventory: inventoryFile, // Path to your inventory file (set dynamically)
+                    sudo: true
                     )
                 }
             }
