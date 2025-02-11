@@ -74,9 +74,11 @@ pipeline {
                 ansible-playbook playbooks/main.yml -i ${inventoryFile} --extra-vars artifact_url=${ARTIFACT_URL} jenkins_user=akrout jenkins_token=113a11226779c9e2b7b0c4624f2894155b"
                 """
                     
-            }
+            
+                     }
             }
         }
+    
     }
 
     post {
