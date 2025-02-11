@@ -48,31 +48,13 @@ pipeline {
         }
         stage('Deploy with Ansible') {
             steps {
-                
-                script {
-                    // Get the current branch name
-                    // Get the branch name from the Jenkins job environment
-                    def branchName = env.GIT_BRANCH
-                    echo "Current branch: ${branchName}"
-                    def inventoryFile
-
-                    // Determine the environment based on the branch name
-                    if (branchName == 'origin/main') {
-                        inventoryFile = 'inventories/prod_hosts.ini'  // Prod environment
-                    } else if (branchName == 'origin/develop') {
-                        inventoryFile = 'inventories/dev_hosts.ini'   // Dev environment
-                    } else {
-                        error "Unknown branch '${branchName}', deployment aborted."
-                    }
-                def ARTIFACT_URL= "https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/"
-                                         // Ensure we are on the 'main' branch
 
                 sh """
                 cd /tmp/ansible-client
                 git checkout main
                 git pull origin main
                 ansible-playbook playbooks/main.yml -i inventories/dev_hosts.ini \
-                --extra-vars "artifact_url=https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/
+                --extra-vars "artifact_url=https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/*zip*/build.zip
                  jenkins_user=akrout jenkins_token=113a11226779c9e2b7b0c4624f2894155b"
 
                 """
