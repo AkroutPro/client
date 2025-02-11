@@ -64,13 +64,13 @@ pipeline {
                     } else {
                         error "Unknown branch '${branchName}', deployment aborted."
                     }
-                def ARTIFACT_URL = "https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/"
+                def ARTIFACT_URL= "https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/"
                                          // Ensure we are on the 'main' branch
                  sh """
                     cd /tmp/ansible-client
                     git checkout main
                     git pull origin main
-                    ansible-playbook playbooks/main.yml -i ${inventoryFile} --extra-vars "artifact_url=${ARTIFACT_URL}
+                    ansible-playbook playbooks/main.yml -i ${inventoryFile} --extra-vars artifact_url=${ARTIFACT_URL}
                     """
                 }
             }
