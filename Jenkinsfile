@@ -48,6 +48,23 @@ pipeline {
         }
         stage('Deploy with Ansible') {
             steps {
+                
+                script {
+                    // Get the current branch name
+                    // Get the branch name from the Jenkins job environment
+                    def branchName = env.GIT_BRANCH
+                    echo "Current branch: ${branchName}"
+                    def inventoryFile
+
+                    // Determine the environment based on the branch name
+                    if (branchName == 'origin/main') {
+                        inventoryFile = 'inventories/prod_hosts.ini'  // Prod environment
+                    } else if (branchName == 'origin/develop') {
+                        inventoryFile = 'inventories/dev_hosts.ini'   // Dev environment
+                    } else {
+                        error "Unknown branch '${branchName}', deployment aborted."
+                    }
+                
 
                 sh """
                 cd /tmp/ansible-client
