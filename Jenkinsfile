@@ -71,7 +71,10 @@ pipeline {
                 cd /tmp/ansible-client
                 git checkout main
                 git pull origin main
-                ansible-playbook playbooks/main.yml -i ${inventoryFile} --extra-vars artifact_url=${ARTIFACT_URL} jenkins_user=akrout jenkins_token=113a11226779c9e2b7b0c4624f2894155b"
+                ansible-playbook playbooks/main.yml -i inventories/dev_hosts.ini \
+                --extra-vars "artifact_url=https://1a80-109-29-31-197.ngrok-free.app/job/develop/lastBuild/artifact/build/
+                 jenkins_user=akrout jenkins_token=113a11226779c9e2b7b0c4624f2894155b"
+
                 """
                     
             
