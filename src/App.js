@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
-function App() {
+const App = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch users when the component mounts
+  useEffect(() => {
+    // Fetch users from the back end
+    fetch('http://localhost:3001/api/users')
+      .then((response) => response.json()) // Parse the JSON response
+      .then((data) => {
+        setUsers(data); // Update state with users
+        setLoading(false); // Set loading to false
+      })
+      .catch((err) => {
+        setError(err); // Handle errors
+        setLoading(false); // Set loading to false
+      });
+  }, []); // Empty dependency array, so it runs once when the component mounts
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         Salem Alykom
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Users</h1>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li> // Adjust based on your user model
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default App;
